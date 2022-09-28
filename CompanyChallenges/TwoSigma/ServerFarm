@@ -1,0 +1,38 @@
+//Server farm solution for 2 sigma company challenge: https://app.codesignal.com/company-challenges/two-sigma/JFbFHYb3CmnKDFaSQ
+
+int[][] solution(int[] jobs, int servers) {
+    //Declare variables.
+    var jobsordered = jobs.OrderByDescending(x => x).ToList();
+    var added = new List<int>();
+    var loads = new List<int>();
+    var scheduled = new int[servers][];
+    //Add empty values to scheduled and loads.
+    for (int i = 0; i < scheduled.Length; i++){
+        scheduled[i] = new int[0];
+        loads.Add(0);
+    }
+    //Iterate over ordered jobs. 
+    for (var i = 0; i < jobsordered.Count; i++){
+        //Find the processor with athe minimum load. Return first available if tied with minimum load.
+        var minload = loads.Min();
+        var minproc = -1;
+        for (int j = 0; j < loads.Count; j++){
+            if (loads[j] == minload){
+                minproc = j;
+                break;
+            }
+        }
+        //Add index value of jobs. Since result must be of the index, add index to added list to prevent reusing the same index.
+        for (int j=0; j <  jobs.Length; j++){
+            if (jobs[j] == jobsordered[i] && !added.Any(x => x == j)){
+                scheduled[minproc] = !scheduled[minproc].Any() ? new int[] { j } : scheduled[minproc].Concat(new int[] { j }).ToArray();
+                added.Add(j);
+                break;
+            }
+        }
+        loads[minproc] += jobsordered[i]; 
+    }
+    
+    return scheduled;
+    
+}
