@@ -1,3 +1,5 @@
+#Solution for GoDaddy domain forwarding challenge: https://app.codesignal.com/company-challenges/godaddy/s3x9tHBqevHipRBCJ
+
 from itertools import chain
 def solution(redirects):
     #Calculate destinations by getting values that only appear on right hand side
